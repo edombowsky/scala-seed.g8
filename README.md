@@ -21,3 +21,10 @@ g8 devinsideyou/scala3-seed # for Scala 3.x
 [g8]: http://www.foundweekends.org/giter8/
 [sbt]: https://www.scala-sbt.org/
 [scala]: https://www.scala-lang.org/
+
+## Summary My Changes
+
+- updateed scalafmt
+- add dependencies
+  + sbt-dependency-graph
+  + sbt-native-packager
