@@ -32,6 +32,9 @@ lazy val commonSettings = Seq(
     (Compile / console / scalacOptions).value
 )
 
+// https://github.com/scalastyle/scalastyle-sbt-plugin/issues/42
+scalastyleConfig := baseDirectory.value / "project" / "scalastyle-config.xml"
+
 lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
     // main dependencies

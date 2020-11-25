@@ -15,3 +15,6 @@ scriptedLaunchOpts ++= Seq(
   "-Xss2m",
   "-Dfile.encoding=UTF-8"
 )
+
+// https://github.com/scalastyle/scalastyle-sbt-plugin/issues/42
+scalastyleConfig := baseDirectory.value / "project" / "scalastyle-config.xml"
