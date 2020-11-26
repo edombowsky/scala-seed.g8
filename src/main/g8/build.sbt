@@ -4,15 +4,6 @@ ThisBuild / organization := "$organization;format="lower,package"$"
 ThisBuild / scalaVersion := "2.13.4"
 ThisBuild / version := "0.0.1-SNAPSHOT"
 
-ThisBuild / scalacOptions ++= Seq(
-  "-deprecation",
-  "-feature",
-  "-language:_",
-  "-unchecked",
-  "-Xfatal-warnings",
-  "-Ymacro-annotations"
-)
-
 lazy val `$name;format="norm"$` =
   project
     .in(file("."))
@@ -24,16 +15,16 @@ lazy val commonSettings = Seq(
   addCompilerPlugin(org.augustjune.`context-applied`),
   addCompilerPlugin(org.typelevel.`kind-projector`),
   update / evictionWarningOptions := EvictionWarningOptions.empty,
-  Compile / console / scalacOptions --= Seq(
-    "-Wunused:_",
-    "-Xfatal-warnings"
-  ),
+  Compile / console / scalacOptions := {
+    (Compile / console / scalacOptions)
+      .value
+      .filterNot(_.contains("wartremover"))
+      .filterNot(Scalac.Lint.toSet)
+      .filterNot(Scalac.FatalWarnings.toSet) :+ "-Wconf:any:silent"
+  },
   Test / console / scalacOptions :=
     (Compile / console / scalacOptions).value
 )
-
-// https://github.com/scalastyle/scalastyle-sbt-plugin/issues/42
-scalastyleConfig := baseDirectory.value / "project" / "scalastyle-config.xml"
 
 lazy val dependencies = Seq(
   libraryDependencies ++= Seq(
@@ -47,3 +38,6 @@ lazy val dependencies = Seq(
     org.typelevel.`discipline-scalatest`
   ).map(_ % Test)
 )
+
+// https://github.com/scalastyle/scalastyle-sbt-plugin/issues/42
+scalastyleConfig := baseDirectory.value / "project" / "scalastyle-config.xml"
